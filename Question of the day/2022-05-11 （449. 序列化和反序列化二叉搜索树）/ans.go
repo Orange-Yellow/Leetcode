@@ -15,7 +15,7 @@ func main() {
 
 }
 
-// 以下为官方题解的后序遍历
+// 以下为自己题解的前序遍历
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -26,59 +26,45 @@ func main() {
  */
 
 // 定义二叉树
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
 
-type Codec struct {
-}
-
-func Constructor() (_ Codec) {
-	return
-}
-
-// Serializes a tree to a single string.
-func (this *Codec) Serialize(root *TreeNode) string {
-	ans := []string{}
+// 序列化：将搜索树转化为字符串
+func (this *Codec) serialize(root *TreeNode) string {
+	arr := []string{}
 	var traversal func(node *TreeNode)
 	traversal = func(node *TreeNode) {
 		if node == nil {
 			return
 		}
-		// 后续遍历
+		// 前序遍历
+		arr = append(arr, strconv.Itoa(node.Val))
 		traversal(node.Left)
 		traversal(node.Right)
-		ans = append(ans, strconv.Itoa(node.Val))
 	}
 	traversal(root)
-	return strings.Join(ans, " ")
+	// 每个节点中间插入空格，方便反序列化时转化为数组
+	return strings.Join(arr, " ")
 }
 
-// Deserializes your encoded data to tree.
-func (this *Codec) Deserialize(data string) *TreeNode {
+// 反序列化： 将字符串转化为搜索树
+func (this *Codec) deserialize(data string) *TreeNode {
 	if data == "" {
 		return nil
 	}
 	arr := strings.Split(data, " ")
-	var contruct func(left, right int) *TreeNode
-	contruct = func(left, right int) *TreeNode {
+	var contract func(left, right int) *TreeNode
+	contract = func(left, right int) *TreeNode {
 		if len(arr) == 0 {
 			return nil
 		}
-
-		val, _ := strconv.Atoi(arr[len(arr)-1])
+		// 因为序列化时是前序遍历，所以数组的首部为根节点
+		val, _ := strconv.Atoi(arr[0])
 		if val < left || val > right {
 			return nil
 		}
-
-		// 移除最后一个元素
-		arr = arr[:len(arr)-1]
-
-		return &TreeNode{Val: val, Right: contruct(val, right), Left: contruct(left, val)}
+		arr = arr[1:]
+		return &TreeNode{Val: val, Left: contract(left, val), Right: contract(val, right)}
 	}
-	return contruct(math.MinInt32, math.MaxInt32)
+	return contract(math.MinInt32, math.MaxInt32)
 }
 
 /**
