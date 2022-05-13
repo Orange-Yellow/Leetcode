@@ -14,6 +14,29 @@ func main() {
 	fmt.Println(oneEditAway("teacher", "beacher"))
 }
 
+// 官方题解
+func OneEditAway(first string, second string) bool {
+	f, s := len(first), len(second)
+	if f < s {
+		return OneEditAway(second, first)
+	}
+	// 长度相差大于1
+	if f-s > 1 {
+		return false
+	}
+	// 遍历短的字符串
+	for i := range second {
+		if first[i] != second[i] {
+			if f == s {
+				return first[i+1:] == second[i+1:]
+			}
+			return first[i+1:] == second[i:]
+		}
+	}
+
+	return true
+}
+
 // 自己题解
 func oneEditAway(first string, second string) bool {
 	if math.Abs(float64(len(first)-len(second))) > 1 {
