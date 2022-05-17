@@ -1,5 +1,10 @@
 package main
 
+/*
+	name: 面试题 04.06.后继者
+	link: https://leetcode.cn/problems/successor-lcci/
+*/
+
 func main() {
 
 }
