@@ -22,8 +22,9 @@ func minMoves2(nums []int) int {
 	for i := range nums {
 		if nums[i]-mid < 0 {
 			ans += -(nums[i] - mid)
+		} else {
+			ans += nums[i] - mid
 		}
-		ans += nums[i] - mid
 	}
 	return ans
 }
