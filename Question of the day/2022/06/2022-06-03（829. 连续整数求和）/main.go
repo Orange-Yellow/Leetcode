@@ -9,6 +9,18 @@ func main() {
 
 }
 
+func ConsecutiveNumbersSum(n int) int {
+	sum := 0
+	ans := 0
+	for i := 1; sum < n; i++ {
+		if (n-sum)%i == 0 {
+			ans++
+		}
+		sum += i
+	}
+	return ans
+}
+
 func isKConsecutive(n, k int) bool {
 	if k%2 == 1 {
 		return n%k == 0
