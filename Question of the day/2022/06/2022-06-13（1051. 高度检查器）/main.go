@@ -23,3 +23,21 @@ func heightChecker(heights []int) int {
 	}
 	return ans
 }
+
+func HeightChecker(heights []int) (ans int) {
+	cnt := [101]int{}
+	for _, v := range heights {
+		cnt[v]++
+	}
+
+	idx := 0
+	for i, c := range cnt {
+		for ; c > 0; c-- {
+			if heights[idx] != i {
+				ans++
+			}
+			idx++
+		}
+	}
+	return
+}
